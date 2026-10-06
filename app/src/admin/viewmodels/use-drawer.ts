@@ -15,7 +15,28 @@ export function useDrawer(){
     const navigationOptions:DrawerItemOption[]=[
         {name:"dashboard",label:"Dashboard",icon:"grid"},
         {name:"orders",label:"Orders",icon:"package"},
-        {name:"inventory",label:"Inventory",icon:"archive"},
+        {
+            name:"inventory",
+            label:"Inventory",
+            icon:"archive",
+            subitems:[
+                {
+                    name:"inventory",
+                    label:"Categories",
+                    icon:"folder",
+                },
+                {
+                    name:"create-product",
+                    label:"Products",
+                    icon:"file-text",
+                },
+                {
+                    name:"create-service",
+                    label:"Servicios",
+                    icon:"tool",
+                }
+            ]
+        }
     ]
 
     return {

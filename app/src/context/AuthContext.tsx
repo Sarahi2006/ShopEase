@@ -8,6 +8,7 @@ interface AuthContextType {
     isLoadingSession: boolean;
     saveSession: (token: string, user: UserResponse) => Promise<void>;
     clearSession: () => void;
+    updateUserSession:(updateUser:UserResponse) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -60,6 +61,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
     };
 
+    /*EDITE LA INFORMACION TIENE QUE CAMBIAR LA SESSION*/
+    const updateUserSession= async (updateUser:UserResponse) => {
+        try {
+            await AsyncStorage.setItem("@auth_user", JSON.stringify(updateUser));
+            setUser(updateUser);
+        } catch (error) {
+            console.log("Error al actualizar la data en AsyncStorage", error);
+        }
+    }
+
     //LIMPIAR SESION
     const clearSession = async () => {
         try {
@@ -80,7 +91,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                 user,
                 isLoadingSession,
                 saveSession,
-                clearSession,
+                updateUserSession,
+                clearSession
             }}
         >
             {children}
@@ -88,4 +100,5 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 };
 
+//CREAR UNA INSTANCIA DE NUESTRO CONTEXTO
 export const useAuth = () => useContext(AuthContext);

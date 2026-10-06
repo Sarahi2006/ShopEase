@@ -102,7 +102,7 @@ export default function DashboardScreen() {
                 <Text style={styles.logoText}>ShopEase</Text>
                 <TouchableOpacity
                     style={styles.profileContainer}
-                    onPress={() => router.push("(protected)/profile")}
+                    onPress={() => router.push("/(protected)/profile")}
                 >
                     <Image
                         source={{ uri: profile.avatarUrl }}

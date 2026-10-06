@@ -8,14 +8,63 @@ import {
     Text,
     TouchableOpacity,
     View,
-    TextInput,
+    TextInput, Alert, ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {useAuth} from "@/app/src/context/AuthContext";
+import { useEffect, useState } from "react";
+import {AuthService} from "@/app/src/Auth/services/auth.service";
 
 export default function ProfileScreen() {
     const router = useRouter();
-    const { user } = useAuth();
+    const { user,token,updateUserSession } = useAuth();
+
+    const [name, setName] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [phone, setPhone] = useState("");
+    const [isUpdating, setIsUpdating] = useState(false);
+
+
+    useEffect(() => {
+        if(user){
+            setName(user.name || "");
+            setLastname(user.lastName || "");
+            setPhone(user.phone || "");
+        }
+    }, [user])
+
+    const handleUpdateUser = async () => {
+
+        if(!name.trim() || !lastname.trim() || !phone.trim()){
+            Alert.alert("campos incompletos", "Por favor llenar los campos")
+            return;
+        }
+        if(!user?.id || !token){
+            Alert.alert("Error de session", "No se encontro el usuario")
+            return;
+        }
+        setIsUpdating(true)
+        try {
+            const updataUser = await AuthService.updateUser(
+                user.id,
+                name,
+                lastname,
+                phone,
+                token,
+            )
+            await updateUserSession(updataUser)
+            Alert.alert(
+                "Excelente",
+                "Tu informacion a sido actualizada con exito en el servidor"
+                )
+        } catch (error:any) {
+            const message = error instanceof Error ? error.message : "No se pudo actualizar";
+            Alert.alert("Error de registro", error.mesage || "No se puede actualizar");
+        }finally{
+            setIsUpdating(false);
+        }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Drawer.Screen options={{headerShown: false}}/>
@@ -42,7 +91,7 @@ export default function ProfileScreen() {
                     <Text style={styles.profileName}>Itamar Sarahi Medrano Martinez</Text>
                     <Text style={styles.profileSubtitle}>Full Stack Developer</Text>
 
-                    /**CARD POINTS**/'
+                    */CARD POINTS/*
                     <View style={styles.cardPoints}>
                         <View style={[styles.cardPoinBox,styles.cardOrderColor]}>
                             <Text style={styles.cardBoxLabel}>Orders</Text>
@@ -58,25 +107,27 @@ export default function ProfileScreen() {
                     <Text style={styles.personalHeader}>Personal Information</Text>
 
                     <View style={styles.inputGroup}>
-                        <Text style={styles.inputLabel}>FULL NAME</Text>
+                        <Text style={styles.inputLabel}>Name</Text>
                         <View style={styles.inputWraper}>
                             <Ionicons style={styles.inputIcon} name="person-outline" size={20}/>
                             <TextInput
                                 placeholder="Full name"
                                 style={styles.input}
-                                value={user?.name || "Usuario no identificado"}
+                                value={name}
+                                onChangeText={setName}
                             />
                         </View>
                     </View>
 
                     <View style={styles.inputGroup}>
-                        <Text style={styles.inputLabel}>EMAIL ADDRESS</Text>
+                        <Text style={styles.inputLabel}>LAS NAME</Text>
                         <View style={styles.inputWraper}>
-                            <Ionicons style={styles.inputIcon} name="mail-outline" size={20}/>
+                            <Ionicons style={styles.inputIcon} name="person-outline" size={20}/>
                             <TextInput
-                                placeholder="Full name"
+                                placeholder="Lastname"
                                 style={styles.input}
-                                value={user?.email || "Sin correo electronico"}
+                                value={lastname}
+                                onChangeText={setLastname}
                             />
                         </View>
                     </View>
@@ -89,11 +140,26 @@ export default function ProfileScreen() {
                                 placeholder="Full name"
                                 keyboardType="phone-pad"
                                 style={styles.input}
-                                value={user?.phone || "Sin numero de telefono"}
+                                value={phone}
+                                onChangeText={setPhone}
                             />
                         </View>
                     </View>
                 </View>
+                <TouchableOpacity
+                    style={styles.updateButton}
+                    onPress={handleUpdateUser}
+                    disabled={isUpdating}
+                >
+                    {isUpdating ? (
+                        <ActivityIndicator color="#FFF" size="small"/>
+                    ):(
+                        <>
+                            <Ionicons name="checkmark-circle-outline" size={20} color="#FFF" style={{marginRight:8}}/>
+                            <Text style={styles.updateButtonTex}>Save Changes</Text>
+                        </>
+                    )}
+                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     )
@@ -243,6 +309,19 @@ const styles = StyleSheet.create({
     },
     inputIcon: {
         marginRight: 10,
+    },
+    updateButton: {
+        flexDirection: "row",
+        backgroundColor: "#005C3A",
+        borderRadius: 12,
+        height: 48,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    updateButtonTex: {
+        color: "#FFF",
+        fontSize: 16,
+        fontWeight: "bold",
     }
 })
 

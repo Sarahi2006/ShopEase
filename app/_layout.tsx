@@ -20,7 +20,7 @@ function NavigationGuard() {
         const inProtectedScreen = segments[0]==="(protected)"
 
         if (token) {
-            console.log("Usuario logueado")
+            console.log("USUARIO LOGUEADO", `Bearer ${token}`)
 
             if (!inProtectedScreen) {
                 console.log("Entro al protected")
