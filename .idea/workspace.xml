@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b95633b5-cabf-44fe-914b-d837c48c7d37" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/ApiClient.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(protected)/create-product.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(protected)/create-service.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/(protected)/inventory.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/categories/services/category.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(protected)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(protected)/_layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/(protected)/dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(protected)/dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(protected)/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(protected)/profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/_layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/admin/models/drawer.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/admin/models/drawer.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/admin/viewmodels/use-drawer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/admin/viewmodels/use-drawer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/auth/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/auth/services/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/context/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/context/AuthContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/categories/services/category.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/categories/services/category.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,6 +118,9 @@
       <workItem from="1790711003769" duration="6896000" />
       <workItem from="1790821758679" duration="6529000" />
       <workItem from="1791256739686" duration="3810000" />
+      <workItem from="1791260620018" duration="319000" />
+      <workItem from="1791487432270" duration="11000" />
+      <workItem from="1791768500667" duration="3507000" />
     </task>
     <servers />
   </component>
