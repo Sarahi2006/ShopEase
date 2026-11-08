@@ -2,18 +2,23 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image, StyleSheet, Text, View, StyleProp, TouchableOpacity } from "react-native";
-import {useDrawer} from "@/app/src/admin/viewmodels/use-drawer";
+import { useDrawer } from "@/app/src/admin/viewmodels/use-drawer";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 import { useAuth } from "@/app/src/context/AuthContext";
-import { useRouter} from "expo-router";
+import { useRouter, Redirect } from "expo-router";
 
 export default function ProtectedLayout() {
     const insets = useSafeAreaInsets();
     const { profile, navigationOptions } = useDrawer();
-    const {clearSession}=useAuth()
+    const { clearSession, token, isLoadingSession } = useAuth();
     const router = useRouter();
     const [isInventoryExpanded, setIsInventoryExpanded] = useState(false);
+
+    // Guard: debe ir después de todos los hooks
+    if (isLoadingSession) return null;
+    if (!token) return <Redirect href="/" />;
+
     return (
         <GestureHandlerRootView>
             <Drawer

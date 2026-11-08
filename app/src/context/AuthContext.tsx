@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { UserResponse } from "../Auth/models/auth.model";
+import { UserResponse } from "../auth/models/auth.model";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {AuthService} from "@/app/src/auth/services/auth.service";
 
 interface AuthContextType {
     token: string | null;
@@ -30,10 +31,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                 const savedUser = await AsyncStorage.getItem("@auth_user");
 
                 if (savedToken && savedUser) {
-                    setToken(savedToken);
-                    setUser(JSON.parse(savedUser));
-
-                    console.log("Session restaurada con exito");
+                    try {
+                        const isValid = await AuthService.validatetoken(savedToken)
+                        if (isValid){
+                            setToken(savedToken);
+                            setUser(JSON.parse(savedUser));
+                        } else {
+                            await AsyncStorage.multiRemove(["@auth_token","@auth_user"]);
+                        }
+                    } catch (error) {
+                        setToken(savedToken);
+                        setUser(JSON.parse(savedUser));
+                    }
                 }
             } catch (error) {
                 console.log("Error al cargar la sesion");
@@ -100,5 +109,5 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 };
 
-//CREAR UNA INSTANCIA DE NUESTRO CONTEXTO
+//CREAR UNA INSTANCIA CONTEXTO
 export const useAuth = () => useContext(AuthContext);

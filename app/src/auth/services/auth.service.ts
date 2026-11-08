@@ -75,5 +75,23 @@ export const AuthService = {
             }
             throw new Error("Server error");
         }
+    },
+
+    /**VALIDATE TOKEN*/
+    validatetoken: async (token: string):Promise<boolean> => {
+        try {
+            const header = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+            const { data }= await axios.get(`${API_URL}/auth/validate`, {
+                headers: {Authorization:header},
+                timeout: 10000,
+            })
+            return data.valid === true
+        } catch (error) {
+
+            console.log(error);
+
+            if (axios.isAxiosError(error) && error.response?.status === 401) return false;
+            throw error
+        }
     }
 };
